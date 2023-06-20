@@ -11,7 +11,7 @@ public class LoginManager {
 	/**
 	 * @author moon93
 	 * @param User instance
-	 * @return db에 입력되면 1, 아니면 0
+	 * @return db에 정상입력되면 1, 아니면 -1
 	 */
 	public int inputUser(String id, String password) {
 		String sql = "insert into users (id, password) values (?, ?);";
@@ -23,15 +23,15 @@ public class LoginManager {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, id);
 			stmt.setString(2, password);
-			stmt.executeUpdate();
-			return 1;
+			int result = stmt.executeUpdate();
+			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(stmt);
 			DBUtil.close(conn);
 		}
-		return 0;
+		return -1;
 	}
 
 	/**
